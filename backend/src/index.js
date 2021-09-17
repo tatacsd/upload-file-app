@@ -2,6 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
+const path = require("path");
+const port = process.env.PORT;
 
 const app = express();
 
@@ -10,13 +12,10 @@ const app = express();
  */
 
 mongoose
-  .connect(
-    "mongodb+srv://userUploadApp:D8QPorXoyYnofNX5@cluster0.qjvp5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    }
-  )
+  .connect(process.env.MONGODB_URL || "mongodb://localhost/test", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
   .then(() => {
     console.log("Connected to MongoDB.");
   })
@@ -31,9 +30,15 @@ app.use(express.urlencoded({ extended: true }));
 // lib of log
 app.use(morgan("dev"));
 
+// give access to the files
+app.use(
+  "/files",
+  express.static(path.resolve(__dirname, "..", "tmp", "uploads"))
+);
+
 // Use the routes created in the backend folder
 app.use(require("./routes"));
 
-app.listen(3000, () => {
-  console.log("Listening on port 3000");
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
