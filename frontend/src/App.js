@@ -1,11 +1,17 @@
 import React, { Component } from "react";
+import GlobalStyle from "./styles/global";
+import { Container, Content } from "./styles";
+import Upload from "./components/Upload";
 
 export default class App extends Component {
   render() {
     return (
-      <div>
-        <h1>Hello, world!</h1>
-      </div>
+      <Container>
+        <Content>
+          <Upload />
+        </Content>
+        <GlobalStyle />
+      </Container>
     );
   }
 }
