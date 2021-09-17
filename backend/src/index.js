@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const path = require("path");
 const port = process.env.PORT;
+const cors = require("cors");
 
 const app = express();
 
@@ -23,7 +24,8 @@ mongoose
     console.log("Error connecting to MongoDB: ", err);
   });
 
-// define the express to be able to lead with json
+// define the express to be able to lead with json (middlewares)
+app.use(cors()); // all domains can access the api
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
