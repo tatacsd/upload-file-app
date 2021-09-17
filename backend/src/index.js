@@ -1,7 +1,27 @@
 const express = require("express");
 const morgan = require("morgan");
+const mongoose = require("mongoose");
 
 const app = express();
+
+/**
+ * Database Setup
+ */
+
+mongoose
+  .connect(
+    "mongodb+srv://userUploadApp:D8QPorXoyYnofNX5@cluster0.qjvp5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }
+  )
+  .then(() => {
+    console.log("Connected to MongoDB.");
+  })
+  .catch((err) => {
+    console.log("Error connecting to MongoDB: ", err);
+  });
 
 // define the express to be able to lead with json
 app.use(express.json());
