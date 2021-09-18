@@ -14,12 +14,12 @@ const storageType = {
     // the filename modifies the file name before saving
     // to guarantee a unique filename using a hash of the file name
     filename: function (req, file, cb) {
-      crypto.randomBytes(16, (err, hash) => {
+      crypto.randomBytes(32, (err, hash) => {
         // if error, call cb with error to be treated in the controller
         if (err) return cb(err);
 
         // the hash is converted to hexadecimal plus the original file name
-        file.key = `${hash.toString("hex")}-${file.originalname}`;
+        file.key = `${hash.toString("hex")}.jpg`;
 
         // call cb with the new file name
         cb(null, file.key);
