@@ -28,15 +28,13 @@ const FileList = ({ files }) => (
                 path: { stroke: "#7159c1" },
               }}
               strokeWidth={10}
-              percentage={60}
+              percentage={uploadedFile.progress}
             />
           )}
           {/* if uploaded display url */}
           {uploadedFile.url && (
             <a
-              href={
-                "http://localhost:3000/files/a922487d21152344a53c13854fde7842-photo_2020-10-31_09-09-47.jpg"
-              }
+              href={`${uploadedFile.url}`}
               target="_blank"
               rel={"noopener noreferrer"}
             >
@@ -48,7 +46,7 @@ const FileList = ({ files }) => (
             <MdCheckCircle size={24} color={"#78e5d5"} />
           )}
           {/* if error display the error */}
-          {uploadedFile.uploaded && <MdError size={24} color={"#e57878"} />}
+          {uploadedFile.error && <MdError size={24} color={"#e57878"} />}
         </div>
       </li>
     ))}

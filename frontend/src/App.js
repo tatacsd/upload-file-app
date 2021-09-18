@@ -59,21 +59,34 @@ export default class App extends Component {
     // file key in the backend, file attribute in the frontend, file name in the frontend
     data.append("file", uploadedFile.file, uploadedFile.name);
 
-    api.post(" posts", data, {
-      // to feed the progress bar
-      onUploadProgress: (e) => {
-        const progress = parseInt(Math.round((e.loaded * 100) / e.total));
-
+    api
+      .post("posts", data, {
+        // to feed the progress bar and monitore the request
+        onUploadProgress: (e) => {
+          const progress = parseInt(Math.round((e.loaded * 100) / e.total));
+          this.updateFile(uploadedFile.id, {
+            progress,
+          });
+        },
+      })
+      .then((response) => {
+        // get all data from the response
         this.updateFile(uploadedFile.id, {
-          progress,
+          uploaded: true,
+          id: response.data._id,
+          url: response.data.url,
         });
-      },
-    });
+      })
+      .catch(() => {
+        this.updateFile(uploadedFile.id, {
+          error: true,
+        });
+      });
   };
 
   render() {
-    console.log("https://www.youtube.com/watch?v=G5UZmvkLWSQ");
     const { uploadedFiles } = this.state;
+    console.log(uploadedFiles);
 
     return (
       <Container>
