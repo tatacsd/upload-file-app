@@ -15,6 +15,7 @@ class App extends Component {
     uploadedFiles: [],
   };
 
+  // load all the posts from the API
   async componentDidMount() {
     const response = await api.get("posts");
 
@@ -36,13 +37,14 @@ class App extends Component {
       id: uniqueId(),
       name: file.name,
       readableSize: filesize(file.size),
-      preview: URL.createObjectURL(file),
+      preview: URL.createObjectURL(file), // Create a thumbnail before the image goes to the server
       progress: 0,
       uploaded: false,
       error: false,
       url: null,
     }));
 
+    // everytime a file is uploaded, the state is appended if it is successful
     this.setState({
       uploadedFiles: this.state.uploadedFiles.concat(uploadedFiles),
     });
